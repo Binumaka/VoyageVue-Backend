@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const destinationSchema = new mongoose.Schema({
-    name:{
+    title:{
         type:String,
         require:true
     },

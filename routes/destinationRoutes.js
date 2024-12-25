@@ -3,7 +3,7 @@ const { findAll, save, findById, deleteById, update } = require("../controller/d
 
 const router = express.Router();
 
-// Routes for destinations
+
 router.get("/", findAll);
 router.post("/", save);
 router.get("/:id", findById);
