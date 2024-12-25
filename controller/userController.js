@@ -5,7 +5,7 @@ const findAll = async (req, res) => {
     const users = await User.find();
     res.status(200).json(users);
   } catch (e) {
-    res.json(e);
+    res.json(e)
   }
 };
 
@@ -13,7 +13,7 @@ const save = async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
-    res.start(201).json(user);
+    res.status(201).json(user);
   } catch (e) {
     res.json(e);
   }
