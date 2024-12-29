@@ -3,28 +3,29 @@ const Booking = require("../model/bookingModel");
 const save = async(req, res, next) =>{
     try{
         const {
-            user,
-            destination,
-            accommodation,
+            userId,
+            destinationId,
+            accommodationId,
             checkInDate,
             checkOutDate,
             totalPrice
         } = req.body;
 
         const newBooking = new Booking({
-          user,
-          destination,
-          accommodation,
-          checkInDate,
-          checkOutDate,
-          totalPrice
+            userId,
+            destinationId,
+            accommodationId,
+            checkInDate,
+            checkOutDate,
+            totalPrice
         });
 
         await newBooking.save();
         res.status(201).json(newBooking)
     }
-    catch(error){
-        next(error)
+    catch (e) {
+        console.error("Error saving accommodation:", e);
+        res.status(500).json({ error: "Internal server error" });
     }
 }
 
