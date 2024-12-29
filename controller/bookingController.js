@@ -1,34 +1,31 @@
 const Booking = require("../model/bookingModel");
 
-// Get all bookings
-const findAll = async (req, res) => {
-  try {
-    const bookings = await Booking.find();
+const save = async(req, res, next) =>{
+    try{
+        const {
+            user,
+            destination,
+            accommodation,
+            checkInDate,
+            checkOutDate,
+            totalPrice
+        } = req.body;
 
-    res.status(200).json(bookings);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch bookings", details: error.message });
-  }
-};
+        const newBooking = new Booking({
+          user,
+          destination,
+          accommodation,
+          checkInDate,
+          checkOutDate,
+          totalPrice
+        });
 
-const save = async (req, res) => {
-  try {
-    const { user, accommodation, checkInDate, checkOutDate, totalPrice } = req.body;
-
-    if (!user || !accommodation || !checkInDate || !checkOutDate || !totalPrice) {
-      return res.status(400).json({ error: "All fields are required" });
+        await newBooking.save();
+        res.status(201).json(newBooking)
     }
-    const newBooking = new Booking(req.body);
+    catch(error){
+        next(error)
+    }
+}
 
-    await newBooking.save();
-
-    res.status(201).json(newBooking);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to save booking", details: error.message });
-  }
-};
-
-module.exports = {
-  findAll,
-  save,
-};
+module.exports ={save};

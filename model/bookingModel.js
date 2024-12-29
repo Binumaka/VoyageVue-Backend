@@ -6,31 +6,31 @@ const bookingSchema = new mongoose.Schema({
         ref: "users",
         required: true,
     },
+    destination: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "destination",
+        required: true,
+    },
     accommodation: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "accommodation",
         required: true,
     },
     checkInDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     checkOutDate: {
-        type: Date,
+        type: String,
         required: true,
     },
     totalPrice: {
         type: Number,
         required: true,
-    },
-    status: {
-        type: String,
-        enum: ["pending", "confirmed", "canceled"],
-        default: "pending",
-    },
+    }
 }, {
     timestamps: true, 
 });
 
-const Booking = mongoose.model("Booking", bookingSchema);
+const Booking = mongoose.model("booking", bookingSchema);
 module.exports = Booking;
