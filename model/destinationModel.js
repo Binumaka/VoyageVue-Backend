@@ -19,6 +19,10 @@ const destinationSchema = new mongoose.Schema({
     description:{
         type:String,
         require:true
+    },
+    section: {
+        type: String,
+        required: true,
     }
 })
 
