@@ -13,11 +13,18 @@ const userSchema = new mongoose.Schema({
       type:String,
       require:true
     },
+
+    image: {
+      type: String,
+      default: null,
+    },
+    
     role: {
       type: String,
-      required: true,
+      enum: ['user', 'admin'],
+      default: 'user',
     }
 });
 
-const UserModel = mongoose.model("User",userSchema);
+const UserModel = mongoose.model("user",userSchema);
 module.exports=UserModel;
