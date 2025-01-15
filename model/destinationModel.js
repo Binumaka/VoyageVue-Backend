@@ -15,6 +15,24 @@ const destinationSchema = new mongoose.Schema({
         type:String,
         require:true
     },
+    image1:{
+        type:String,
+        require:true
+    },
+    image2:{
+        type:String,
+        require:true
+    },
+
+    bestTimeToVisit:{
+        type:String,
+        require:true
+    },
+    
+    location:{
+        type:String,
+        require:true
+    },
 
     description:{
         type:String,
