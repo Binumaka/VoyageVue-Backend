@@ -1,53 +1,53 @@
-const Wishlist = require('../model/bucket-listModel'); 
+const BucketList = require('../model/bucket-listModel'); 
 
-const getWishlists = async (req, res) => {
+const getBucketlist = async (req, res) => {
     try {
-        const wishlists = await Wishlist.find();
-        res.status(200).json(wishlists);
+        const bucketList = await BucketList.find();
+        res.status(200).json(bucketList);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch wishlists' });
+        res.status(500).json({ error: 'Failed to fetch BucketList' });
     }
 };
 
-const getWishlistById = async (req, res) => {
+const getBucketListById = async (req, res) => {
     try {
         const { id } = req.params;
-        const wishlist = await Wishlist.findById(id);
-        if (!wishlist) {
-            return res.status(404).json({ error: 'Wishlist not found' });
+        const bucketList = await BucketList.findById(id);
+        if (!bucketList) {
+            return res.status(404).json({ error: 'BucketList not found' });
         }
-        res.status(200).json(wishlist);
+        res.status(200).json(bucketList);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch the wishlist' });
+        res.status(500).json({ error: 'Failed to fetch the BucketList' });
     }
 };
 
-const createWishlist = async (req, res) => {
+const createBucketList = async (req, res) => {
     try {
-        const newWishlist = new Wishlist(req.body);
-        const savedWishlist = await newWishlist.save();
-        res.status(201).json(savedWishlist);
+        const newBucketList = new BucketList(req.body);
+        const savedBucketList = await newBucketList.save();
+        res.status(201).json(savedBucketList);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create the wishlist' });
+        res.status(500).json({ error: 'Failed to create the BucketList' });
     }
 };
 
-const deleteWishlist = async (req, res) => {
+const deleteBucketList = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedWishlist = await Wishlist.findByIdAndDelete(id);
-        if (!deletedWishlist) {
-            return res.status(404).json({ error: 'Wishlist not found' });
+        const deletedBucketList = await BucketList.findByIdAndDelete(id);
+        if (!deletedBucketList) {
+            return res.status(404).json({ error: 'BucketList not found' });
         }
-        res.status(200).json({ message: 'Wishlist deleted successfully' });
+        res.status(200).json({ message: 'BucketList deleted successfully' });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to delete the wishlist' });
+        res.status(500).json({ error: 'Failed to delete the BucketList' });
     }
 };
 
 module.exports = {
-    getWishlists,
-    getWishlistById,
-    createWishlist,
-    deleteWishlist
+    getBucketlist,
+    getBucketListById,
+    createBucketList,
+    deleteBucketList
 };
