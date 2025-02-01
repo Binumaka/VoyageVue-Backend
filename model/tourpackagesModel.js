@@ -2,20 +2,21 @@ const mongoose = require("mongoose");
 
 const tourPackageSchema = new mongoose.Schema(
     {
-        name: {
+        title: {
             type: String,
             required: true,
         },
-        destinations:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "destination",
+        image: {
+            type: String,
+            required: true,
         },
-        guide: {
-            type: String, 
+        highlights: {
+            type: String,
+            required: true,
         },
-        accommodation: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "accommodation",
+        itinerary: {
+            type: String,
+            required: true,
         },
         price: {
             type: Number,
