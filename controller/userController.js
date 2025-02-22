@@ -1,5 +1,8 @@
 const User = require("../model/userModel");
+const nodemailer=require("nodemailer")
 
+
+// find all the users 
 const findAll = async (req, res) => {
   try {
     const users = await User.find();
@@ -9,26 +12,24 @@ const findAll = async (req, res) => {
   }
 };
 
-const save = async (req, res) => {
-  try {
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).json(user);
-  } catch (e) {
-    res.json(e);
-  }
-};
-
+//Find user by ID
 const findById = async(req,res)=>{
-    try{
-        const user = await User.findById(req.params.id);
-        res.status(200).json(user)
-    }
-    catch(e){
-        res.json(e)
+    try {
+        const userId = req.user._id; 
+        const user = await User.findById(userId); 
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        res.status(200).json(user); 
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: 'An error occurred while fetching the user' });
     }
 }
 
+//Delete user by Id
 const deleteById = async(req,res)=>{
     try{
         const user = await User.findByIdAndDelete(req.params.id);
@@ -39,19 +40,26 @@ const deleteById = async(req,res)=>{
     }
 }
 
+// Update user by ID
 const update = async(req,res)=>{
-    try{
-        const user = await User.findByIdAndUpdate(req.params.id,req.body,{new:true});
-        res.status(200).json("Data Updated")
-    }
-    catch(e){
-        res.json(e)
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.params.id, 
+            req.body,    
+            { new: true } 
+        );
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({ message: 'User updated successfully', user });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'An error occurred while updating the user' });
     }
 }
 
 module.exports = {
-    findAll, 
-    save,
+    findAll,
     findById,
     deleteById,
     update
