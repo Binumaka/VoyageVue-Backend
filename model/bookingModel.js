@@ -4,8 +4,7 @@ const bookingSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
-      required: true,
+      ref: "user",
     },
     destinationId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,6 +14,11 @@ const bookingSchema = new mongoose.Schema(
     accommodationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "accommodation",
+      required: true,
+    },
+    guideId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Guide",
       required: true,
     },
     checkInDate: {

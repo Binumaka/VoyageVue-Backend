@@ -1,24 +1,11 @@
 const mongoose = require("mongoose");
 
-const wishlistSchema = new mongoose.Schema({
-  category: String,
-  city: String,
-  state: String,
-  country: String,
-  guestCount: Number,
-  bedroomCount: Number,
-  bedCount: Number,
-  bathroomCount: Number,
-//   amenities: [String],
-//   listingPhotoPaths: [String],
+const bucketListSchema = new mongoose.Schema({
   title: String,
   description: String,
-  price: String,
-  imageURL: { type: String, required: true },
-  pricePerNight: { type: String, required: true },
-  location: { type: String, required: true },
+  image: String,
 });
 
-const Wishlist = mongoose.model("wishlist", wishlistSchema);
+const BucketList = mongoose.model("bucketlist", bucketListSchema);
 
-module.exports = Wishlist;
+module.exports = BucketList;

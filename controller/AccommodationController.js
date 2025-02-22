@@ -13,9 +13,9 @@ const findAll = async (req, res) => {
 
 const save = async (req, res) => {
     try {
-        const { title, price, image, description, destination } = req.body;
+        const { title, price, description, destination } = req.body;
 
-        if (!title || !price || !image || !description || !destination) {
+        if (!title || !price || !description || !destination) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
@@ -27,9 +27,9 @@ const save = async (req, res) => {
         const accommodation = new Accommodation({
             title,
             price,
-            image,
             description,
             destination,
+            image: req.file ? req.file.originalname : null,
         });
 
         await accommodation.save();
@@ -42,7 +42,12 @@ const save = async (req, res) => {
 
 const findByDestination = async (req, res) => {
     try {
-        const accommodations = await Accommodation.find({ destination: req.params.destinationId }).populate("destination");
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ error: "Destination ID is required" });
+        }
+
+        const accommodations = await Accommodation.find({ destination: id }).populate("destination");
         if (accommodations.length === 0) {
             return res.status(404).json({ error: "No accommodations found for this destination" });
         }
@@ -85,7 +90,18 @@ const update = async (req, res) => {
         if (!accommodation) {
             return res.status(404).json({ error: "Accommodation not found" });
         }
-        res.status(200).json(accommodation);
+
+        const updatedData = {...req.body};
+
+        if(req.file){
+            updatedData.image - req.file.path;
+        }else {
+            updatedData.image = existingAccommodation.image;
+        }
+        
+        const updatedAccommodation = await Accommodation.findByIdAndUpdate(id, updatedData,{new:true});
+
+        res.status(200).json({message: "Accommodation updated", data: updatedAccommodation});
     } catch (e) {
         console.error("Error updating accommodation:", e);
         res.status(500).json({ error: "Internal server error" });
