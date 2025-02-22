@@ -1,20 +1,19 @@
 const jwt = require('jsonwebtoken');
-const User = require('../model/user');
+const User = require('../model/userModel');
 
 const authenticateToken = async (req, res, next) => {
-    const token = req.header('Authorization')?.split(' ')[1];
+    const token = req.header('Authorization');
     if (!token) {
         return res.status(401).json({ error: 'Access denied: No token provided' });
     }
 
     try {
-        const verified = jwt.verify(token, process.env.SECRET_KEY);
-        const user = await User.findById(verified._id);
-        if (!user) {
+        const verified = jwt.verify(token.split(" ")[1], process.env.SECRET_KEY);
+        const user = await User.findById(verified.userId);
+        if (!req.user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        req.user = user;
         next();
     } catch (error) {
         console.error('Token verification failed:', error);
@@ -22,15 +21,6 @@ const authenticateToken = async (req, res, next) => {
     }
 };
 
-const authorizeRole = (role) => (req, res, next) => {
-    if (req.user.role !== role) {
-        return res.status(403).json({ error: 'Access denied: Insufficient permissions' });
-    }
-
-    next();
-};
-
 module.exports = {
     authenticateToken,
-    authorizeRole,
 };
