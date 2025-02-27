@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { findAllPackages, createPackage, deleteById, update } = require("../controller/tourpackagesController");
+const { findAllPackages, createPackage, findById,deleteById, update } = require("../controller/tourpackagesController");
 
 const multer = require("multer");
 
@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
     cb(null, "destinations_image");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, Date.now() + "-" + file.originalname); 
   }
 });
 
@@ -31,8 +31,9 @@ const upload = multer({
 });
 
 router.get("/find", findAllPackages);
-router.post("/save",upload.single("image"), createPackage);
+router.post("/create",upload.fields([{ name: 'image' }, { name: 'image1' }]), createPackage);
+router.get("/:id", findById);
 router.delete("/:id", deleteById);
-router.put("/:id", upload.single("image"),update);
+router.put("/:id",upload.fields([{ name: 'image' }, { name: 'image1' }]),update);
 
 module.exports = router;

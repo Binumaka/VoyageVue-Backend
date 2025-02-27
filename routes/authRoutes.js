@@ -1,5 +1,5 @@
 const express = require("express");
-const {test, loginUser, findUserById, registerUser, uploadImage} = require("../controller/authController");
+const {test, loginUser, findUserById, registerUser, uploadImage, forgetPassword, resetPassword} = require("../controller/authController");
 const {authenticateToken} = require("../security/Auth")
 const router= express.Router();
 
@@ -32,6 +32,8 @@ router.post("/login",loginUser);
 router.get('/users',authenticateToken, findUserById); 
 router.post("/register",registerUser);
 router.post("/uploadImage",upload.single('image'),uploadImage);
+router.post("/forgetpassword", forgetPassword);
+router.post("/resetpassword", resetPassword);
 
 
 

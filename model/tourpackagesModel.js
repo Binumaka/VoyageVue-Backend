@@ -10,14 +10,34 @@ const tourPackageSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        highlights: {
+        image1: {
             type: String,
             required: true,
         },
-        itinerary: {
-            type: String,
-            required: true,
-        },
+        highlights: [
+            {
+                highlight: {
+                    type: String,
+                    required: true,
+                },
+                description: {
+                    type: String,
+                    required: true,
+                },
+            }
+        ],
+        itinerary: [
+            {
+                day: {
+                    type: Number,
+                    required: true,
+                },
+                description: {
+                    type: String,
+                    required: true,
+                },
+            }
+        ],
         price: {
             type: Number,
             required: true,
